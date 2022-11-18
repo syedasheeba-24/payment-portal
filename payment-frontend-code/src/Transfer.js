@@ -1,38 +1,73 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 function Transfer() {
   const [display, setDisplay] = useState("none");
-  const [mpin, setMpin] = useState("");
+  const [mpin, setMpin] = useState();
   const [amount, setAmount] = useState();
+  const [name, setName] = useState("");
+  const [beneficiaryList, setList] = useState([]);
+  const [owner, setOwner] = useState({});
   const navigate = useNavigate();
 
-  const handlePinSubmit = (event) => {
-    if (mpin === "" || mpin.length < 6) {
-      event.target.setAttribute("data-dismiss", "");
-      setDisplay("");
-    } else {
-      event.target.setAttribute("data-dismiss", "modal");
-      setDisplay("none");
-      event.target.click();
-      event.target.setAttribute("data-dismiss", "");
-      navigate("/success");
-    }
-  };
-  const handleInputChange = (event) => {
-    setMpin(event.target.value);
-  };
+  useEffect(() => {
+    axios.get("/pay/getAll").then((res) => setList(res.data));
+    axios.get("/pay/getOwner").then((res) => setOwner(res.data));
+  }, []);
 
   const handleAmountChange = (event) => {
     setAmount(event.target.value);
   };
 
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+    beneficiaryList.filter((b) => b.beneficiaryName === name);
+  };
+
   const handleTransfer = (event) => {
     const result = /^\d+$/.test(amount);
-    if (!result || amount <= 0) {
+    if (!result || amount <= 0 || amount > 200000) {
       event.target.setAttribute("data-toggle", "");
       alert("Please enter right value, maximum limit is 2 lakh");
-    } else event.target.setAttribute("data-toggle", "modal");
+    } else {
+      event.target.setAttribute("data-toggle", "modal");
+    }
   };
+
+  const handlePinChange = (event) => {
+    setMpin(event.target.value);
+  };
+
+  const handlePinSubmit = (event) => {
+    let pin = owner.pin + "";
+    if (mpin === "" || mpin.length < 6) {
+      event.target.setAttribute("data-dismiss", "");
+      setDisplay("");
+    } else if (mpin === pin) {
+      let bal = beneficiaryList[0].balance + amount;
+      let ownerbal = beneficiaryList[0].balance - amount;
+      let ownerBody = {
+        ownerid: owner.ownerid,
+        balance: ownerbal,
+        pin: owner.pin,
+      };
+      let beneficiaryBody = {
+        beneficiaryid: beneficiaryList[0].beneficiaryid,
+        accountNumber: beneficiaryList[0].accountNumber,
+        beneficiaryName: beneficiaryList[0].beneficiaryName,
+        balance: bal,
+      };
+      event.target.setAttribute("data-dismiss", "modal");
+      setDisplay("none");
+      event.target.click();
+      event.target.setAttribute("data-dismiss", "");
+      ownerBody.balance = owner.balance - amount;
+      axios.put("/pay/update", beneficiaryBody);
+      axios.put("/pay/updateOwner", ownerBody);
+      navigate("/success");
+    } else alert("MPIN is incorrect!");
+  };
+
   return (
     <div>
       <div className="row" style={{ marginTop: "5%" }}>
@@ -60,12 +95,14 @@ function Transfer() {
           <label style={{ fontWeight: "bold" }}>Beneficiary</label>
         </div>
         <div className="col">
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+          <select
+            class="form-control"
+            id="exampleFormControlSelect1"
+            onChange={handleNameChange}
+          >
+            {beneficiaryList.map((c) => (
+              <option>{c.beneficiaryName}</option>
+            ))}
           </select>
         </div>
         <div className="col"></div>
@@ -112,7 +149,7 @@ function Transfer() {
                     type="password"
                     class="form-control"
                     id="validationCustom03"
-                    onChange={handleInputChange}
+                    onChange={handlePinChange}
                     placeholder="Enter a 6-digit MPIN"
                     maxLength={6}
                     value={mpin}

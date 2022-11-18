@@ -4,6 +4,7 @@ import Transfer from "./Transfer";
 import Beneficiary from "./Beneficiary.js";
 import Delete from "./Delete.js";
 import Success from "./Success.js";
+import EditBeneficiary from "./EditBeneficiary.js";
 
 function App() {
   return (
@@ -30,11 +31,8 @@ function App() {
                 Dropdown
               </a>
               <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="/beneficiary/1">
+                <a className="dropdown-item" href="/beneficiary">
                   Add Beneficiary
-                </a>
-                <a className="dropdown-item" href="/beneficiary/2">
-                  Edit Beneficiary
                 </a>
                 <a className="dropdown-item" href="/delete">
                   Delete Beneficiary
@@ -47,13 +45,10 @@ function App() {
           <Routes>
             <Route exact path="/" element={<Home />}></Route>
             <Route exact path="/transfer" element={<Transfer />}></Route>
-            <Route
-              exact
-              path="/beneficiary/:id"
-              element={<Beneficiary />}
-            ></Route>
+            <Route exact path="/beneficiary" element={<Beneficiary />}></Route>
             <Route exact path="/delete" element={<Delete />}></Route>
             <Route exact path="/success" element={<Success />}></Route>
+            <Route exact path="/edit/:id" element={<EditBeneficiary />}></Route>
           </Routes>
         </div>
       </div>

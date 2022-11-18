@@ -1,4 +1,12 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 function Home() {
+  const [balance, setBalance] = useState();
+  useEffect(() => {
+    axios.get("/pay/getOwner").then((res) => {
+      setBalance(res.data.balance.toLocaleString());
+    });
+  });
   return (
     <div
       className="card"
@@ -13,7 +21,7 @@ function Home() {
       <div className="card-body" style={{ color: "white", textAlign: "left" }}>
         <h5 className="card-title">Your Balance</h5>
         <p className="card-text" style={{ fontSize: "35px" }}>
-          5,00,000 INR
+          {balance}
         </p>
         <a
           className="btn btn-primary"

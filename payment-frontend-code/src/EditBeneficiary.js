@@ -2,35 +2,46 @@ import { useParams, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-function Beneficiary() {
-  const [name, setName] = useState("");
-  const [account, setAccount] = useState();
+function EditBeneficiary() {
+  const { id } = useParams();
+  const [beneficiary, setBeneficiary] = useState({
+    beneficiaryid: 0,
+    beneficiaryName: "",
+    accountNumber: "",
+    balance: 0,
+  });
   const navigate = useNavigate();
-
+  useEffect(() => {
+    axios.get("/pay/get/" + id).then((res) => setBeneficiary(res.data));
+  }, []);
   const handleNameChange = (event) => {
-    setName(event.target.value);
+    setBeneficiary((beneficiary) => ({
+      ...beneficiary,
+      beneficiaryName: event.target.value,
+    }));
   };
+
   const handleAccountChange = (event) => {
-    setAccount(event.target.value);
+    setBeneficiary((beneficiary) => ({
+      ...beneficiary,
+      accountNumber: event.target.value,
+    }));
   };
-  const submitBeneficiary = () => {
-    if (account.length < 10) {
+  const editBeneficiary = () => {
+    if (beneficiary.accountNumber.length < 10) {
       alert("Please enter 10 digit account number");
-    } else if (name.length === 0 || account.length === 0) {
+    } else if (
+      beneficiary.beneficiaryName.length === 0 ||
+      beneficiary.accountNumber.length === 0
+    ) {
       alert("Please enter all mandatory fields");
     } else {
-      let beneficiaryBody = {
-        beneficiaryName: name,
-        accountNumber: account,
-        balance: 0,
-      };
-      axios.post("/pay/create", beneficiaryBody).then((res) => {
-        alert("Beneficiary added succesfully!");
+      axios.put("/pay/update", beneficiary).then((res) => {
+        alert("Beneficiary updated succesfully!");
         navigate("/");
       });
     }
   };
-
   return (
     <div>
       <div className="row" style={{ marginTop: 20 }}>
@@ -45,8 +56,8 @@ function Beneficiary() {
             className="form-control"
             placeholder="Enter name"
             aria-label="Enter name"
+            value={beneficiary.beneficiaryName}
             onChange={handleNameChange}
-            value={name}
           />
         </div>
         <div className="col"></div>
@@ -63,9 +74,8 @@ function Beneficiary() {
             className="form-control"
             placeholder="Account Number"
             aria-label="Account Number"
+            value={beneficiary.accountNumber}
             onChange={handleAccountChange}
-            maxLength={10}
-            value={account}
           />
         </div>
         <div className="col"></div>
@@ -73,12 +83,11 @@ function Beneficiary() {
       <button
         className="btn btn-primary"
         style={{ marginLeft: "40%", marginTop: 40 }}
-        onClick={submitBeneficiary}
+        onClick={editBeneficiary}
       >
-        Add Beneficiary
+        Update Beneficiary
       </button>
     </div>
   );
 }
-
-export default Beneficiary;
+export default EditBeneficiary;
