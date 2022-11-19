@@ -3,9 +3,13 @@ import axios from "axios";
 function Home() {
   const [balance, setBalance] = useState();
   useEffect(() => {
-    axios.get("/pay/getOwner").then((res) => {
-      setBalance(res.data.balance.toLocaleString());
-    });
+    axios
+      .get(
+        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getOwner"
+      )
+      .then((res) => {
+        setBalance(res.data.balance.toLocaleString());
+      });
   });
   return (
     <div

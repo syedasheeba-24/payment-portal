@@ -24,10 +24,15 @@ function Beneficiary() {
         accountNumber: account,
         balance: 0,
       };
-      axios.post("/pay/create", beneficiaryBody).then((res) => {
-        alert("Beneficiary added succesfully!");
-        navigate("/");
-      });
+      axios
+        .post(
+          "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/create",
+          beneficiaryBody
+        )
+        .then((res) => {
+          alert("Beneficiary added succesfully!");
+          navigate("/");
+        });
     }
   };
 

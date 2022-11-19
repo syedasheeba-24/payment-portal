@@ -11,8 +11,16 @@ function Transfer() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get("/pay/getAll").then((res) => setList(res.data));
-    axios.get("/pay/getOwner").then((res) => setOwner(res.data));
+    axios
+      .get(
+        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getAll"
+      )
+      .then((res) => setList(res.data));
+    axios
+      .get(
+        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getOwner"
+      )
+      .then((res) => setOwner(res.data));
   }, []);
 
   const handleAmountChange = (event) => {
@@ -62,8 +70,14 @@ function Transfer() {
       event.target.click();
       event.target.setAttribute("data-dismiss", "");
       ownerBody.balance = owner.balance - amount;
-      axios.put("/pay/update", beneficiaryBody);
-      axios.put("/pay/updateOwner", ownerBody);
+      axios.put(
+        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/update",
+        beneficiaryBody
+      );
+      axios.put(
+        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/updateOwner",
+        ownerBody
+      );
       navigate("/success");
     } else alert("MPIN is incorrect!");
   };

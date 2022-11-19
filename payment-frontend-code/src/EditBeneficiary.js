@@ -12,7 +12,12 @@ function EditBeneficiary() {
   });
   const navigate = useNavigate();
   useEffect(() => {
-    axios.get("/pay/get/" + id).then((res) => setBeneficiary(res.data));
+    axios
+      .get(
+        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/get/" +
+          id
+      )
+      .then((res) => setBeneficiary(res.data));
   }, []);
   const handleNameChange = (event) => {
     setBeneficiary((beneficiary) => ({
@@ -36,10 +41,15 @@ function EditBeneficiary() {
     ) {
       alert("Please enter all mandatory fields");
     } else {
-      axios.put("/pay/update", beneficiary).then((res) => {
-        alert("Beneficiary updated succesfully!");
-        navigate("/");
-      });
+      axios
+        .put(
+          "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/update",
+          beneficiary
+        )
+        .then((res) => {
+          alert("Beneficiary updated succesfully!");
+          navigate("/");
+        });
     }
   };
   return (

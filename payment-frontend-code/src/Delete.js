@@ -5,13 +5,22 @@ function Delete() {
   const [beneficiaryList, setList] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    axios.get("/pay/getAll").then((res) => setList(res.data));
+    axios
+      .get(
+        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getAll"
+      )
+      .then((res) => setList(res.data));
   });
   const deleteBeneficiary = (e, id) => {
-    axios.delete("/pay/delete/" + id).then((res) => {
-      setList(beneficiaryList.filter((val) => val.beneficiaryid !== id));
-      alert("beneficiary deleted successfully");
-    });
+    axios
+      .delete(
+        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/delete/" +
+          id
+      )
+      .then((res) => {
+        setList(beneficiaryList.filter((val) => val.beneficiaryid !== id));
+        alert("beneficiary deleted successfully");
+      });
   };
   const editBeneficiary = (e, id) => {
     navigate("/edit/" + id);
