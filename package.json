@@ -41,5 +41,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com"
+  "proxy": "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com"
 }
