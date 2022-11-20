@@ -26,7 +26,7 @@ function Beneficiary() {
       };
       axios
         .post(
-          "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/create",
+          "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/create",
           beneficiaryBody
         )
         .then((res) => {

@@ -13,12 +13,12 @@ function Transfer() {
   useEffect(() => {
     axios
       .get(
-        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getAll"
+        "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getAll"
       )
       .then((res) => setList(res.data));
     axios
       .get(
-        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getOwner"
+        "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getOwner"
       )
       .then((res) => setOwner(res.data));
   }, []);
@@ -71,11 +71,11 @@ function Transfer() {
       event.target.setAttribute("data-dismiss", "");
       ownerBody.balance = owner.balance - amount;
       axios.put(
-        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/update",
+        "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/update",
         beneficiaryBody
       );
       axios.put(
-        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/updateOwner",
+        "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/updateOwner",
         ownerBody
       );
       navigate("/success");

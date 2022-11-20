@@ -14,7 +14,7 @@ function EditBeneficiary() {
   useEffect(() => {
     axios
       .get(
-        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/get/" +
+        "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/get/" +
           id
       )
       .then((res) => setBeneficiary(res.data));
@@ -43,7 +43,7 @@ function EditBeneficiary() {
     } else {
       axios
         .put(
-          "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/update",
+          "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/update",
           beneficiary
         )
         .then((res) => {

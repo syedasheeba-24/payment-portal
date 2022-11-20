@@ -7,14 +7,14 @@ function Delete() {
   useEffect(() => {
     axios
       .get(
-        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getAll"
+        "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getAll"
       )
       .then((res) => setList(res.data));
   });
   const deleteBeneficiary = (e, id) => {
     axios
       .delete(
-        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/delete/" +
+        "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/delete/" +
           id
       )
       .then((res) => {

@@ -5,7 +5,7 @@ function Home() {
   useEffect(() => {
     axios
       .get(
-        "http://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getOwner"
+        "https://paymentportal-env.eba-v287xkrg.ap-northeast-1.elasticbeanstalk.com/pay/getOwner"
       )
       .then((res) => {
         setBalance(res.data.balance.toLocaleString());
